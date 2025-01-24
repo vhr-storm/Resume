@@ -3,10 +3,15 @@ package Functional;
 public class ArrayStorage {
     Resume[] storage = new Resume[10000];
 
+    private static int counterOfResume = 0;
     void clear() {
     }
 
     void save(Resume r) {
+        if(counterOfResume!=10000){
+            this.storage[counterOfResume] = r;
+            counterOfResume++;
+        }
     }
 
     Resume get(String uuid) {
@@ -24,6 +29,6 @@ public class ArrayStorage {
     }
 
     int size() {
-        return 0;
+        return counterOfResume;
     }
 }
