@@ -20,7 +20,7 @@ public class ArrayStorage {
     }
 
     public Resume get(String uuid) {
-        int foundID = indexOfResume(uuid);
+        int foundID = getIndex(uuid);
         if (size() == 0) return null;
         if (foundID != -1) {
             return this.storage[foundID];
@@ -28,7 +28,7 @@ public class ArrayStorage {
         return null;
     }
 
-    public int indexOfResume(String uuid) {
+    public int getIndex(String uuid) {
         for (int i = 0; i < size(); i++) {
             if (uuid.equals(getUuid(this.storage[i]))) {
                 return i;
@@ -37,12 +37,12 @@ public class ArrayStorage {
         return -1;
     }
 
-    public String getUuid (Resume r) {
+    public String getUuid(Resume r) {
         return r.toString();
     }
 
     public void delete(String uuid) {
-        int foundID = indexOfResume(uuid);
+        int foundID = getIndex(uuid);
         if (foundID != -1) {
             this.storage[foundID] = null;
             for (int i = foundID; i < size(); i++) {
@@ -71,13 +71,8 @@ public class ArrayStorage {
         return counterOfResume;
     }
 
-    public void update(Resume r){
-        if(getUuid(r)==null){
-            System.out.println("Такого резюме нет");
-        }else {
-            System.out.println("Такое резюме есть");
-        }
-        }
-
+    public void update(Resume r) {
+        int foundID = getIndex(getUuid(r));
+    }
 
 }
