@@ -67,4 +67,6 @@ public class ArrayStorage {
     public int size() {
         return counterOfResume;
     }
+
+
 }
