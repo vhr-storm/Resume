@@ -29,8 +29,7 @@ public class ArrayStorage {
     }
 
     public int indexOfResume(String uuid) {
-        int i = 0;
-        for (; i < size(); i++) {
+        for (int i = 0; i < size(); i++) {
             if (uuid.equals(getUuid(this.storage[i]))) {
                 return i;
             }
