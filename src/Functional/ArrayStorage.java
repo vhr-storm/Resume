@@ -73,6 +73,11 @@ public class ArrayStorage {
 
     public void update(Resume r) {
         int foundID = getIndex(getUuid(r));
+        if(foundID== -1){
+            System.out.println("Resume "+ getUuid(r) + "not exist");
+        } else {
+            this.storage[foundID]=r;
+        }
     }
 
 }
