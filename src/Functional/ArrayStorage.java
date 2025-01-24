@@ -71,5 +71,13 @@ public class ArrayStorage {
         return counterOfResume;
     }
 
+    public void update(Resume r){
+        if(getUuid(r)==null){
+            System.out.println("Такого резюме нет");
+        }else {
+            System.out.println("Такое резюме есть");
+        }
+        }
+
 
 }
