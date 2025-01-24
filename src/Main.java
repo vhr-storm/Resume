@@ -1,3 +1,5 @@
+import Functional.Resume;
+import Functional.ArrayStorage;
 public class Main {
     static ArrayStorage arrayStorage = new ArrayStorage();
 
