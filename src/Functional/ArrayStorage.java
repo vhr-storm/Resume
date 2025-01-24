@@ -33,6 +33,18 @@ public class ArrayStorage {
         return -1;
     }
     void delete(String uuid) {
+        int foundID=indexOfResume(uuid);
+        if(foundID!=-1){
+            this.storage[foundID]=null;
+            for (int i = foundID; i < size(); i++) {
+                if ((this.storage[i] == null) && (this.storage[i + 1] != null)) {
+                    Resume tmp = this.storage[i];
+                    this.storage[i] = this.storage[i + 1];
+                    this.storage[i + 1] = tmp;
+                }
+            }
+            counterOfResume--;
+        }
     }
 
     /**
