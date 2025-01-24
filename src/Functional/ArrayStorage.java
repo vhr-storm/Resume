@@ -57,9 +57,6 @@ public class ArrayStorage {
      * @return array, contains only Resumes in storage (without null)
      */
     public Resume[] getAll() {
-        if (counterOfResume == 0) {
-            return null;
-        }
         Resume[] outputAll = new Resume[counterOfResume];
         for (int i = 0; i < size(); i++) {
             outputAll[i] = this.storage[i];
