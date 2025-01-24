@@ -5,21 +5,21 @@ public class ArrayStorage {
 
     private static int counterOfResume = 0;
 
-    void clear() {
+    public void clear() {
         for (int i = 0; i < size(); i++) {
             this.storage[i] = null;
         }
         counterOfResume = 0;
     }
 
-    void save(Resume r) {
+    public void save(Resume r) {
         if (counterOfResume != 10000) {
             this.storage[counterOfResume] = r;
             counterOfResume++;
         }
     }
 
-    Resume get(String uuid) {
+    public Resume get(String uuid) {
         int foundID = indexOfResume(uuid);
         if (size() == 0) return null;
         if (foundID != -1) {
@@ -28,7 +28,7 @@ public class ArrayStorage {
         return null;
     }
 
-    int indexOfResume(String uuid) {
+    public int indexOfResume(String uuid) {
         int i = 0;
         for (; i < size(); i++) {
             if (uuid.equals(this.storage[i].toString())) {
@@ -38,7 +38,7 @@ public class ArrayStorage {
         return -1;
     }
 
-    void delete(String uuid) {
+    public void delete(String uuid) {
         int foundID = indexOfResume(uuid);
         if (foundID != -1) {
             this.storage[foundID] = null;
@@ -56,7 +56,7 @@ public class ArrayStorage {
     /**
      * @return array, contains only Resumes in storage (without null)
      */
-    Resume[] getAll() {
+    public Resume[] getAll() {
         if (counterOfResume == 0) {
             return null;
         }
@@ -67,7 +67,7 @@ public class ArrayStorage {
         return outputAll;
     }
 
-    int size() {
+    public int size() {
         return counterOfResume;
     }
 }
