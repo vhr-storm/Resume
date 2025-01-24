@@ -6,6 +6,10 @@ public class ArrayStorage {
     private static int counterOfResume = 0;
 
     void clear() {
+        for (int i = 0; i < size(); i++) {
+            this.storage[i] = null;
+        }
+        counterOfResume = 0;
     }
 
     void save(Resume r) {
