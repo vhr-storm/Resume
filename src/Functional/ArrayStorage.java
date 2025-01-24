@@ -31,11 +31,15 @@ public class ArrayStorage {
     public int indexOfResume(String uuid) {
         int i = 0;
         for (; i < size(); i++) {
-            if (uuid.equals(this.storage[i].toString())) {
+            if (uuid.equals(getUuid(this.storage[i]))) {
                 return i;
             }
         }
         return -1;
+    }
+
+    public String getUuid (Resume r) {
+        return r.toString();
     }
 
     public void delete(String uuid) {
