@@ -6,22 +6,22 @@ public class Main {
     public static void main(String[] args) {
         Resume r1 = new Resume();
 
-        r1.uuid = "uuid1";
+        r1.setUuid("uuid1");
         Resume r2 = new Resume();
-        r2.uuid = "uuid2";
+        r2.setUuid("uuid2");
         Resume r3 = new Resume();
-        r3.uuid = "uuid3";
+        r3.setUuid("uuid3");
         Resume r4 =new Resume();
-        r4.uuid="uuid4";
+//        r4.uuid="uuid4";
         arrayStorage.save(r1);
         arrayStorage.save(r2);
         arrayStorage.save(r3);
 
-        System.out.println("Get r1: " + arrayStorage.get(r1.uuid));
+        System.out.println("Get r1: " + arrayStorage.get(r1.getUuid()));
         System.out.println("Size: " + arrayStorage.size());
 
         printAll();
-        arrayStorage.delete(r1.uuid);
+        arrayStorage.delete(r1.getUuid());
         printAll();
         arrayStorage.clear();
         printAll();
