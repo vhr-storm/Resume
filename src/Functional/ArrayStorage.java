@@ -15,9 +15,23 @@ public class ArrayStorage {
     }
 
     Resume get(String uuid) {
+        int foundID=indexOfResume(uuid);
+        if (size() == 0) return null;
+        if(foundID!=-1){
+            return this.storage[foundID];
+        }
         return null;
     }
 
+    int indexOfResume(String uuid){
+        int i = 0;
+        for (; i < size(); i++) {
+            if (uuid.equals(this.storage[i].toString())) {
+                return i;
+            }
+        }
+        return -1;
+    }
     void delete(String uuid) {
     }
 
