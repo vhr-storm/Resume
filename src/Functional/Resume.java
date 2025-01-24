@@ -1,7 +1,7 @@
 package Functional;
 
 public class Resume {
-    String uuid;
+    public String uuid;
 
     @Override
     public String toString() {
