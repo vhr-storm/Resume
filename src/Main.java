@@ -5,12 +5,14 @@ public class Main {
 
     public static void main(String[] args) {
         Resume r1 = new Resume();
+
         r1.uuid = "uuid1";
         Resume r2 = new Resume();
         r2.uuid = "uuid2";
         Resume r3 = new Resume();
         r3.uuid = "uuid3";
-
+        Resume r4 =new Resume();
+        r4.uuid="uuid4";
         arrayStorage.save(r1);
         arrayStorage.save(r2);
         arrayStorage.save(r3);
@@ -25,6 +27,8 @@ public class Main {
         printAll();
         System.out.println();
         System.out.println("Size: " + arrayStorage.size());
+        System.out.println();
+        arrayStorage.update(r4);
     }
 
     static void printAll() {
