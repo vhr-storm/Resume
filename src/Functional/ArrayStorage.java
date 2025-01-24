@@ -13,7 +13,9 @@ public class ArrayStorage {
     }
 
     public void save(Resume r) {
-        if (counterOfResume != 10000) {
+        if (getIndex(r.getUuid()) != -1) {
+            System.out.println("Resume " + r.getUuid() + " already exists");
+        } else if (counterOfResume != 10000) {
             this.storage[counterOfResume] = r;
             counterOfResume++;
         }
@@ -24,22 +26,22 @@ public class ArrayStorage {
         if (size() == 0) return null;
         if (foundID != -1) {
             return this.storage[foundID];
+        } else {
+            System.out.println("Resume " + uuid + " not exist");
+            return null;
         }
-        return null;
+
     }
 
-    public int getIndex(String uuid) {
+    private int getIndex(String uuid) {
         for (int i = 0; i < size(); i++) {
-            if (uuid.equals(getUuid(this.storage[i]))) {
+            if (uuid.equals(this.storage[i].getUuid())) {
                 return i;
             }
         }
         return -1;
     }
 
-    public String getUuid(Resume r) {
-        return r.toString();
-    }
 
     public void delete(String uuid) {
         int foundID = getIndex(uuid);
@@ -53,6 +55,8 @@ public class ArrayStorage {
                 }
             }
             counterOfResume--;
+        } else{
+            System.out.println("Resume "+ uuid+ "not exist");
         }
     }
 
@@ -72,11 +76,11 @@ public class ArrayStorage {
     }
 
     public void update(Resume r) {
-        int foundID = getIndex(getUuid(r));
-        if(foundID== -1){
-            System.out.println("Resume "+ getUuid(r) + "not exist");
+        int foundID = getIndex(r.getUuid());
+        if (foundID == -1) {
+            System.out.println("Resume " + r.getUuid() + " not exist");
         } else {
-            this.storage[foundID]=r;
+            this.storage[foundID] = r;
         }
     }
 
