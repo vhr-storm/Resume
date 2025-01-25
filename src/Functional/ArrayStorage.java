@@ -1,8 +1,9 @@
 package Functional;
 
 public class ArrayStorage {
-    Resume[] storage = new Resume[10000];
 
+    private final int MAXIMUM_SIZE=10000;
+    Resume[] storage = new Resume[10000];
     private static int counterOfResume = 0;
 
     public void clear() {
