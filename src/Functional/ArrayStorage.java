@@ -16,7 +16,7 @@ public class ArrayStorage {
     public void save(Resume r) {
         if (getIndex(r.getUuid()) != -1) {
             System.out.println("Resume " + r.getUuid() + " already exists");
-        } else if (counterOfResume != 10000) {
+        } else if (counterOfResume != MAXIMUM_SIZE) {
             this.storage[counterOfResume] = r;
             counterOfResume++;
         }
@@ -84,5 +84,4 @@ public class ArrayStorage {
             this.storage[foundID] = r;
         }
     }
-
 }
