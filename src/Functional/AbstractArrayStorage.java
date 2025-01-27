@@ -2,8 +2,8 @@ package Functional;
 
 public abstract class AbstractArrayStorage implements Storage {
 
-    private final int MAXIMUM_SIZE=10000;
-    private final Resume[] storage = new Resume[MAXIMUM_SIZE];
+     final int MAXIMUM_SIZE=10000;
+     final Resume[] storage = new Resume[MAXIMUM_SIZE];
     private static int counterOfResume = 0;
     public  void clear(){
         for (int i = 0; i < size(); i++) {
@@ -13,14 +13,17 @@ public abstract class AbstractArrayStorage implements Storage {
     }
 
     public void save(Resume r) {
-        if (getIndex(r.getUuid()) != -1) {
+        int index=getIndex(r.getUuid());
+        if (index != -1) {
             System.out.println("Resume " + r.getUuid() + " already exists");
         } else if (counterOfResume != MAXIMUM_SIZE) {
-            this.storage[counterOfResume] = r;
+            insertElement(r,index);
             counterOfResume++;
         }
     }
 
+    protected abstract void insertElement(Resume r, int index);
+    protected abstract void fillDeletedElement(int index);
     public Resume get(String uuid){
         int foundID = getIndex(uuid);
         if (size() == 0) return null;
@@ -32,26 +35,13 @@ public abstract class AbstractArrayStorage implements Storage {
         }
     }
 
-    public int getIndex(String uuid) {
-        for (int i = 0; i < size(); i++) {
-            if (uuid.equals(this.storage[i].getUuid())) {
-                return i;
-            }
-        }
-        return -1;
-    }
+    public abstract int getIndex(String uuid);
 
     public void delete(String uuid) {
-        int foundID = getIndex(uuid);
-        if (foundID != -1) {
-            this.storage[foundID] = null;
-            for (int i = foundID; i < size(); i++) {
-                if ((this.storage[i] == null) && (this.storage[i + 1] != null)) {
-                    Resume tmp = this.storage[i];
-                    this.storage[i] = this.storage[i + 1];
-                    this.storage[i + 1] = tmp;
-                }
-            }
+        int index = getIndex(uuid);
+        if (index != -1) {
+            fillDeletedElement(index);
+            storage[counterOfResume-1]=null;
             counterOfResume--;
         } else{
             System.out.println("Resume "+ uuid+ "not exist");
