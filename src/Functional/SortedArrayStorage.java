@@ -10,16 +10,7 @@ public class SortedArrayStorage extends AbstractArrayStorage {
     private final Resume[] storage = new Resume[MAXIMUM_SIZE];
     private static int counterOfResume = 0;
 
-    @Override
-    public void save(Resume r) {
-        if (getIndex(r.getUuid()) != -1) {
-            System.out.println("Resume " + r.getUuid() + " already exists");
-        } else if (counterOfResume != MAXIMUM_SIZE) {
-            this.storage[counterOfResume] = r;
-            counterOfResume++;
-            sort(storage);
-        }
-    }
+
 
     @Override
     public Resume get(String uuid) {
@@ -33,57 +24,7 @@ public class SortedArrayStorage extends AbstractArrayStorage {
         }
     }
 
-    @Override
-    public int getIndex(String uuid) {
-        for (int i = 0; i < size(); i++) {
-            if (uuid.equals(this.storage[i].getUuid())) {
-                return i;
-            }
-        }
-        return -1;
-    }
 
-    @Override
-    public void delete(String uuid) {
-        int foundID = Arrays.binarySearch(storage, 0, size() - 1, storage[getIndex(uuid)], resumeComparator);
-        if (foundID != -1) {
-            this.storage[foundID] = null;
-            for (int i = foundID; i < size(); i++) {
-                if ((this.storage[i] == null) && (this.storage[i + 1] != null)) {
-                    Resume tmp = this.storage[i];
-                    this.storage[i] = this.storage[i + 1];
-                    this.storage[i + 1] = tmp;
-                }
-            }
-            counterOfResume--;
-            sort(storage);
-        } else {
-            System.out.println("Resume " + uuid + "not exist");
-        }
-    }
-
-    @Override
-    public Resume[] getAll() {
-        Resume[] outputAll = new Resume[counterOfResume];
-        for (int i = 0; i < size(); i++) {
-            outputAll[i] = this.storage[i];
-        }
-        return outputAll;
-    }
-
-    public int size() {
-        return counterOfResume;
-    }
-
-    @Override
-    public void update(Resume r) {
-        int foundID = getIndex(r.getUuid());
-        if (foundID == -1) {
-            System.out.println("Resume " + r.getUuid() + " not exist");
-        } else {
-            this.storage[foundID] = r;
-        }
-    }
 
     void sort(Resume[] r) {
         boolean swapped = true;
