@@ -1,14 +1,14 @@
 package Functional;
 
+import java.util.Arrays;
+
 public abstract class AbstractArrayStorage implements Storage {
 
     protected final int MAXIMUM_SIZE=10000;
     protected final Resume[] storage = new Resume[MAXIMUM_SIZE];
     protected static int counterOfResume = 0;
     public  void clear(){
-        for (int i = 0; i < size(); i++) {
-            this.storage[i] = null;
-        }
+        Arrays.fill(storage,0,counterOfResume,null);
         counterOfResume = 0;
     }
 
