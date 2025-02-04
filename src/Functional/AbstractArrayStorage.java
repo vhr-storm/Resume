@@ -4,30 +4,33 @@ import java.util.Arrays;
 
 public abstract class AbstractArrayStorage implements Storage {
 
-    protected final int MAXIMUM_SIZE=10000;
+    protected final int MAXIMUM_SIZE = 10000;
     protected final Resume[] storage = new Resume[MAXIMUM_SIZE];
     protected static int counterOfResume = 0;
-    public  void clear(){
-        Arrays.fill(storage,0,counterOfResume,null);
+
+    public void clear() {
+        Arrays.fill(storage, 0, counterOfResume, null);
         counterOfResume = 0;
     }
 
     public void save(Resume r) {
-        int index=getIndex(r.getUuid());
+        int index = getIndex(r.getUuid());
         if (index > 0) {
             System.out.println("Resume " + r.getUuid() + " already exists");
         } else if (counterOfResume != MAXIMUM_SIZE) {
-            insertElement(r,index);
+            insertElement(r, index);
             counterOfResume++;
         }
     }
 
     protected abstract void insertElement(Resume r, int index);
+
     protected abstract void fillDeletedElement(int index);
-    public Resume get(String uuid){
+
+    public Resume get(String uuid) {
         int index = getIndex(uuid);
         if (size() == 0) return null;
-        if (index < 0 ) {
+        if (index < 0) {
             System.out.println("Resume " + uuid + " not exist");
             return null;
         }
@@ -40,15 +43,16 @@ public abstract class AbstractArrayStorage implements Storage {
     public void delete(String uuid) {
         int index = getIndex(uuid);
         if (index < 0) {
-            System.out.println("Resume "+ uuid+ " not exist");
-        } else{
+            System.out.println("Resume " + uuid + " not exist");
+        } else {
             fillDeletedElement(index);
-            storage[counterOfResume-1]=null;
+            storage[counterOfResume - 1] = null;
             counterOfResume--;
         }
     }
+
     public Resume[] getAll() {
-        return Arrays.copyOfRange(storage,0,counterOfResume);
+        return Arrays.copyOfRange(storage, 0, counterOfResume);
     }
 
     public int size() {

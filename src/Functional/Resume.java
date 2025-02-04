@@ -1,6 +1,6 @@
 package Functional;
 
-public class Resume {
+public class Resume implements Comparable<Resume> {
     private String uuid;
 
     @Override
@@ -14,5 +14,10 @@ public class Resume {
 
     public void setUuid(java.lang.String uuid) {
         this.uuid = uuid;
+    }
+
+    @Override
+    public int compareTo(Resume o) {
+        return this.uuid.compareTo(o.uuid);
     }
 }
