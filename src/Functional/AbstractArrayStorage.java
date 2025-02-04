@@ -2,9 +2,9 @@ package Functional;
 
 public abstract class AbstractArrayStorage implements Storage {
 
-    private final int MAXIMUM_SIZE=10000;
-    private final Resume[] storage = new Resume[MAXIMUM_SIZE];
-    private static int counterOfResume = 0;
+    protected final int MAXIMUM_SIZE=10000;
+    protected final Resume[] storage = new Resume[MAXIMUM_SIZE];
+    protected static int counterOfResume = 0;
     public  void clear(){
         for (int i = 0; i < size(); i++) {
             this.storage[i] = null;
@@ -13,48 +13,38 @@ public abstract class AbstractArrayStorage implements Storage {
     }
 
     public void save(Resume r) {
-        if (getIndex(r.getUuid()) != -1) {
+        int index=getIndex(r.getUuid());
+        if (index > 0) {
             System.out.println("Resume " + r.getUuid() + " already exists");
         } else if (counterOfResume != MAXIMUM_SIZE) {
-            this.storage[counterOfResume] = r;
+            insertElement(r,index);
             counterOfResume++;
         }
     }
 
+    protected abstract void insertElement(Resume r, int index);
+    protected abstract void fillDeletedElement(int index);
     public Resume get(String uuid){
-        int foundID = getIndex(uuid);
+        int index = getIndex(uuid);
         if (size() == 0) return null;
-        if (foundID != -1) {
-            return this.storage[foundID];
-        } else {
+        if (index < 0 ) {
             System.out.println("Resume " + uuid + " not exist");
             return null;
         }
+        return this.storage[index];
+
     }
 
-    public int getIndex(String uuid) {
-        for (int i = 0; i < size(); i++) {
-            if (uuid.equals(this.storage[i].getUuid())) {
-                return i;
-            }
-        }
-        return -1;
-    }
+    public abstract int getIndex(String uuid);
 
     public void delete(String uuid) {
-        int foundID = getIndex(uuid);
-        if (foundID != -1) {
-            this.storage[foundID] = null;
-            for (int i = foundID; i < size(); i++) {
-                if ((this.storage[i] == null) && (this.storage[i + 1] != null)) {
-                    Resume tmp = this.storage[i];
-                    this.storage[i] = this.storage[i + 1];
-                    this.storage[i + 1] = tmp;
-                }
-            }
-            counterOfResume--;
+        int index = getIndex(uuid);
+        if (index < 0) {
+            System.out.println("Resume "+ uuid+ " not exist");
         } else{
-            System.out.println("Resume "+ uuid+ "not exist");
+            fillDeletedElement(index);
+            storage[counterOfResume-1]=null;
+            counterOfResume--;
         }
     }
     public Resume[] getAll() {
@@ -70,11 +60,11 @@ public abstract class AbstractArrayStorage implements Storage {
     }
 
     public void update(Resume r) {
-        int foundID = getIndex(r.getUuid());
-        if (foundID == -1) {
+        int index = getIndex(r.getUuid());
+        if (index < 0) {
             System.out.println("Resume " + r.getUuid() + " not exist");
         } else {
-            this.storage[foundID] = r;
+            this.storage[index] = r;
         }
     }
 
