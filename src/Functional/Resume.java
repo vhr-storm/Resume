@@ -3,6 +3,13 @@ package Functional;
 public class Resume implements Comparable<Resume> {
     private String uuid;
 
+    public Resume() {
+    }
+
+    public Resume(String uuid) {
+        this.uuid = uuid;
+    }
+
     @Override
     public String toString() {
         return uuid;
