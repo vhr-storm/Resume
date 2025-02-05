@@ -1,5 +1,7 @@
 package Functional;
 
+import model.Resume;
+
 public interface Storage {
     public  void clear();
     public  void save(Resume r);

@@ -1,5 +1,7 @@
 package Functional;
 
+import model.Resume;
+
 import java.util.Arrays;
 
 public abstract class AbstractArrayStorage implements Storage {
