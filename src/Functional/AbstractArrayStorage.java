@@ -1,5 +1,6 @@
 package Functional;
 
+import Exception.*;
 import model.Resume;
 
 import java.util.Arrays;
@@ -18,7 +19,7 @@ public abstract class AbstractArrayStorage implements Storage {
     public void save(Resume r) {
         int index = getIndex(r.getUuid());
         if (index > 0) {
-            System.out.println("Resume " + r.getUuid() + " already exists");
+            throw new ExistStorageException(r.getUuid());
         } else if (counterOfResume != MAXIMUM_SIZE) {
             insertElement(r, index);
             counterOfResume++;
@@ -33,8 +34,7 @@ public abstract class AbstractArrayStorage implements Storage {
         int index = getIndex(uuid);
         if (size() == 0) return null;
         if (index < 0) {
-            System.out.println("Resume " + uuid + " not exist");
-            return null;
+            throw new NotExistStorageException(uuid);
         }
         return this.storage[index];
 
@@ -45,7 +45,7 @@ public abstract class AbstractArrayStorage implements Storage {
     public void delete(String uuid) {
         int index = getIndex(uuid);
         if (index < 0) {
-            System.out.println("Resume " + uuid + " not exist");
+            throw new NotExistStorageException(uuid);
         } else {
             fillDeletedElement(index);
             storage[counterOfResume - 1] = null;
@@ -64,7 +64,7 @@ public abstract class AbstractArrayStorage implements Storage {
     public void update(Resume r) {
         int index = getIndex(r.getUuid());
         if (index < 0) {
-            System.out.println("Resume " + r.getUuid() + " not exist");
+            throw new NotExistStorageException(r.getUuid());
         } else {
             this.storage[index] = r;
         }
