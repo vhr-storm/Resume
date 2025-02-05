@@ -1,2 +1,4 @@
-package Exception;public class NotExistStorageException {
+package Exception;
+
+public class NotExistStorageException extends StorageException{
 }

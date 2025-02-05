@@ -1,2 +1,5 @@
-package Exception;public class StorageException {
+package Exception;
+
+public class StorageException extends RuntimeException{
+    private final String uuid = ;
 }
