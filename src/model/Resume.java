@@ -1,7 +1,18 @@
-package Functional;
+package model;
+
+import java.util.UUID;
 
 public class Resume implements Comparable<Resume> {
-    private String uuid;
+    private final String uuid;
+
+    public Resume() {
+        this(UUID.randomUUID().toString());
+    }
+
+    public Resume(String uuid) {
+        this.uuid = uuid;
+    }
+
 
     @Override
     public String toString() {
@@ -12,9 +23,6 @@ public class Resume implements Comparable<Resume> {
         return uuid;
     }
 
-    public void setUuid(java.lang.String uuid) {
-        this.uuid = uuid;
-    }
 
     @Override
     public int compareTo(Resume o) {

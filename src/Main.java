@@ -1,19 +1,16 @@
 import Functional.AbstractArrayStorage;
-import Functional.Resume;
+import Functional.StorageFactory;
+import model.Resume;
 import Functional.SortedArrayStorage;
 
-public class Main {
-    static AbstractArrayStorage arraySortedStorage = new SortedArrayStorage();
+public class Main { ;
+    static AbstractArrayStorage arraySortedStorage = StorageFactory.createStorage(StorageFactory.StorageType.NO_TYPE);
     public static void main(String[] args) {
-        Resume r1 = new Resume();
+        Resume r1 = new Resume("uuid3");
+        Resume r2 = new Resume("uuid1");
+        Resume r3 = new Resume("uuid5");
+        Resume r4 =new Resume("uuid4");
 
-        r1.setUuid("uuid3");
-        Resume r2 = new Resume();
-        r2.setUuid("uuid1");
-        Resume r3 = new Resume();
-        r3.setUuid("uuid5");
-        Resume r4 =new Resume();
-         r4.setUuid("uuid4");
         arraySortedStorage.save(r1);
         arraySortedStorage.save(r2);
         arraySortedStorage.save(r3);
@@ -27,6 +24,7 @@ public class Main {
         arraySortedStorage.delete(r1.getUuid());
         printAll();
         arraySortedStorage.clear();
+        arraySortedStorage.delete(r1.getUuid());
         printAll();
         System.out.println();
         System.out.println("Size: " + arraySortedStorage.size());

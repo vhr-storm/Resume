@@ -1,9 +1,10 @@
 package Functional;
 
+import model.Resume;
+
 import java.util.Arrays;
 
 public class SortedArrayStorage extends AbstractArrayStorage {
-
 
 
     @Override
@@ -23,9 +24,8 @@ public class SortedArrayStorage extends AbstractArrayStorage {
 
     @Override
     public int getIndex(String uuid) {
-        Resume key = new Resume();
-        key.setUuid(uuid);
-        return Arrays.binarySearch(storage, 0, size(), key);
+        Resume key = new Resume(uuid);
+        return Arrays.binarySearch(storage, 0, counterOfResume, key);
     }
 
 
