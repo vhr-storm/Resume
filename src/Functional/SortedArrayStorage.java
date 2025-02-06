@@ -1,5 +1,6 @@
 package Functional;
 
+import Exception.*;
 import model.Resume;
 
 import java.util.Arrays;
@@ -8,10 +9,14 @@ public class SortedArrayStorage extends AbstractArrayStorage {
 
 
     @Override
-    public void insertElement(Resume r, int index) {
+    public void insertElement(Resume r, int index) throws StorageException {
         int insertId = -index - 1;
-        System.arraycopy(storage, insertId, storage, insertId + 1, counterOfResume - insertId);
-        storage[insertId] = r;
+        if (insertId < 0) {
+            throw new ExistStorageException(r.getUuid());
+        } else {
+            System.arraycopy(storage, insertId, storage, insertId + 1, counterOfResume - insertId);
+            storage[insertId] = r;
+        }
     }
 
     @Override
