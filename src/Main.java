@@ -1,15 +1,16 @@
 import Functional.AbstractArrayStorage;
 import Functional.StorageFactory;
 import model.Resume;
-import Functional.SortedArrayStorage;
 
-public class Main { ;
+public class Main {
+
     static AbstractArrayStorage arraySortedStorage = StorageFactory.createStorage(StorageFactory.StorageType.NO_TYPE);
+
     public static void main(String[] args) {
         Resume r1 = new Resume("uuid3");
         Resume r2 = new Resume("uuid1");
         Resume r3 = new Resume("uuid5");
-        Resume r4 =new Resume("uuid4");
+        Resume r4 = new Resume("uuid4");
 
         arraySortedStorage.save(r1);
         arraySortedStorage.save(r2);
