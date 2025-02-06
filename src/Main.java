@@ -3,8 +3,8 @@ import Functional.StorageFactory;
 import model.Resume;
 import Functional.SortedArrayStorage;
 
-public class Main {
-    static AbstractArrayStorage arraySortedStorage = new SortedArrayStorage();
+public class Main { ;
+    static AbstractArrayStorage arraySortedStorage = StorageFactory.createStorage(StorageFactory.StorageType.NO_TYPE);
     public static void main(String[] args) {
         Resume r1 = new Resume("uuid3");
         Resume r2 = new Resume("uuid1");
@@ -24,6 +24,7 @@ public class Main {
         arraySortedStorage.delete(r1.getUuid());
         printAll();
         arraySortedStorage.clear();
+        arraySortedStorage.delete(r1.getUuid());
         printAll();
         System.out.println();
         System.out.println("Size: " + arraySortedStorage.size());
