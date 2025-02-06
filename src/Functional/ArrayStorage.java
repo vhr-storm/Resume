@@ -5,12 +5,12 @@ import model.Resume;
 public class ArrayStorage extends AbstractArrayStorage {
     @Override
     protected void insertElement(Resume r, int index) {
-        storage[index] = r;
+        storage[counterOfResume] = r;
     }
 
     @Override
     protected void fillDeletedElement(int index) {
-        storage[index] = storage[counterOfResume];
+        storage[index] = storage[counterOfResume - 1];
     }
 
     public int getIndex(String uuid) {
