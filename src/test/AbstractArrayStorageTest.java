@@ -14,7 +14,7 @@ class AbstractArrayStorageTest {
     static AbstractArrayStorage DEFAULT_STORAGE = StorageFactory.createStorage(StorageFactory.StorageType.ARRAY_STORAGE);
     static AbstractArrayStorage TEST_ARRAY_STORAGE = StorageFactory.createStorage(StorageFactory.StorageType.ARRAY_STORAGE);
     static AbstractArrayStorage SORTED_ARRAY_STORAGE = StorageFactory.createStorage(StorageFactory.StorageType.SORTED_ARRAY_STORAGE);
-    static Resume[] TEST_ARRAY = {new Resume("uuid10"), new Resume("uuid11"), new Resume("uuid15"), new Resume("uuid14"), new Resume("uuid9"),new Resume("uuid1")};
+    static Resume[] TEST_ARRAY = {new Resume("uuid10"), new Resume("uuid11"), new Resume("uuid15"), new Resume("uuid14"), new Resume("uuid9"), new Resume("uuid1")};
 
     static Resume[] DEFAULT_ARRAY = {new Resume("uuid1"), new Resume("uuid5"), new Resume("uuid2"), new Resume("uuid3"), new Resume("uuid6")};
     static Resume[] OVERFLOW_ARRAY = new Resume[10000];
@@ -24,7 +24,7 @@ class AbstractArrayStorageTest {
         TEST_ARRAY_STORAGE.clear();
         DEFAULT_STORAGE.clear();
         SORTED_ARRAY_STORAGE.clear();
-        for (Resume r : TEST_ARRAY){
+        for (Resume r : TEST_ARRAY) {
             TEST_ARRAY_STORAGE.save(r);
         }
         for (Resume resume : DEFAULT_ARRAY) {
