@@ -1,4 +1,4 @@
-package Exception;
+package exception;
 
 public class NotExistTypeStorageException extends StorageException {
     public NotExistTypeStorageException(String type) {

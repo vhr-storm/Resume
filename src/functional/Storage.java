@@ -1,4 +1,4 @@
-package Functional;
+package functional;
 
 import model.Resume;
 

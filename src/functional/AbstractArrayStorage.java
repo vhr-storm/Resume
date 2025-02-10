@@ -1,6 +1,6 @@
-package Functional;
+package functional;
 
-import Exception.*;
+import exception.*;
 import model.Resume;
 
 import java.util.Arrays;

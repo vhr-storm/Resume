@@ -1,6 +1,6 @@
-package Functional;
+package functional;
 
-import Exception.*;
+import exception.*;
 
 public class StorageFactory {
     public enum StorageType {
