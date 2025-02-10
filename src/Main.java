@@ -1,5 +1,5 @@
-import Functional.AbstractArrayStorage;
-import Functional.StorageFactory;
+import functional.AbstractArrayStorage;
+import functional.StorageFactory;
 import model.Resume;
 
 public class Main {
