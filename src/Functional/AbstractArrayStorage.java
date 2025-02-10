@@ -9,7 +9,7 @@ public abstract class AbstractArrayStorage implements Storage {
 
     protected final int MAXIMUM_SIZE = 10000;
     protected final Resume[] storage = new Resume[MAXIMUM_SIZE];
-    protected static int counterOfResume = 0;
+    protected int counterOfResume = 0;
 
     public void clear() {
         Arrays.fill(storage, 0, counterOfResume, null);
