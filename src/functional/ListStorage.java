@@ -1,2 +1,4 @@
-package functional;public class ListStorage {
+package functional;
+
+public class ListStorage extends AbstractStorage{
 }
