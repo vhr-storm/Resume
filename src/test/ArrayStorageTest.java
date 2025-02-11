@@ -3,74 +3,156 @@ package test;
 import exception.ExistStorageException;
 import exception.NotExistStorageException;
 import exception.StorageException;
+import functional.AbstractArrayStorage;
+import functional.StorageFactory;
 import model.Resume;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class ArrayStorageTest extends AbstractArrayStorageTest {
 
+    protected static AbstractArrayStorage DEFAULT_STORAGE =
+            StorageFactory.createStorage(StorageFactory.StorageType.ARRAY_STORAGE);
+    protected static AbstractArrayStorage TEST_ARRAY_STORAGE =
+            StorageFactory.createStorage(StorageFactory.StorageType.ARRAY_STORAGE);
 
+    protected static AbstractArrayStorage TEST_OVERFLOW_ARRAY_STORAGE =
+            StorageFactory.createStorage(StorageFactory.StorageType.ARRAY_STORAGE);
 
+    protected static Resume[] TEST_ARRAY = {
+            new Resume("uuid10"),
+            new Resume("uuid11"),
+            new Resume("uuid15"),
+            new Resume("uuid14"),
+            new Resume("uuid9"),
+            new Resume("uuid1")
+    };
+
+    protected static Resume[] DEFAULT_ARRAY = {
+            new Resume("uuid1"),
+            new Resume("uuid5"),
+            new Resume("uuid2"),
+            new Resume("uuid3"),
+            new Resume("uuid6")
+    };
+    static final int MAXIMUM_SIZE = 10000;
+    protected static Resume[] OVERFLOW_ARRAY = new Resume[MAXIMUM_SIZE];
+
+    @BeforeEach
+    public void setUp() {
+        TEST_ARRAY_STORAGE.clear();
+        DEFAULT_STORAGE.clear();
+        for (Resume r : TEST_ARRAY) {
+            TEST_ARRAY_STORAGE.save(r);
+        }
+        for (Resume resume : DEFAULT_ARRAY) {
+            DEFAULT_STORAGE.save(resume);
+        }
+    }
 
     @Test
-    void save() throws StorageException {
-        ExistStorageException exception = assertThrows(ExistStorageException.class, () -> {
-            TEST_ARRAY_STORAGE.save(TEST_ARRAY[1]);
-        }); // выбрасывает исключение, о том, что уже существует такой uuid
-        assertEquals("Resume " + TEST_ARRAY[1].getUuid() + " already exists", exception.getMessage()); // Проверка на существующий элемент [1] в массиве
-        exception = assertThrows(ExistStorageException.class, () -> {
-            TEST_ARRAY_STORAGE.save(TEST_ARRAY[2]);
+    @DisplayName("При сохранении резюме оно должно сохраняться")
+    void savingResumeShouldSave(){
+        TEST_ARRAY_STORAGE.save(new Resume("uuid111"));
+        Assertions.assertEquals(new Resume("uuid111").getUuid(),TEST_ARRAY_STORAGE.get("uuid111").getUuid());
+        TEST_ARRAY_STORAGE.save(new Resume("uuid151"));
+        Assertions.assertEquals(new Resume("uuid151").getUuid(),TEST_ARRAY_STORAGE.get("uuid151").getUuid());
+    }
+    @Test
+    @DisplayName("При сохранении резюме должен увеличиваться размер Storage")
+    void savingResumeShouldIncreaseOfSize() {
+        Resume newResume = new Resume("uuid7");
+        TEST_ARRAY_STORAGE.save(newResume);
+        Assertions.assertEquals(7, TEST_ARRAY_STORAGE.size());
+        DEFAULT_STORAGE.save(newResume);
+        Assertions.assertEquals(6, DEFAULT_STORAGE.size());
+    }
+
+    @Test
+    @DisplayName("При сохранении, существующего резюме, должен выкидывать исключение ExistStorageException")
+    void savingExistingResumeShouldThrowException() {
+        Resume newResume = new Resume("uuid1");
+        ExistStorageException existStorageException = assertThrows(ExistStorageException.class, () -> {
+            TEST_ARRAY_STORAGE.save(newResume);
         });
-        assertEquals("Resume " + TEST_ARRAY[2].getUuid() + " already exists", exception.getMessage()); // Проверка на существующий элемент [2] в массиве
-        TEST_ARRAY_STORAGE.clear(); //Очистка массива для проверки повторного сохранения
-        TEST_ARRAY_STORAGE.save(TEST_ARRAY[1]);
-        Assertions.assertEquals(TEST_ARRAY[1].getUuid(), "uuid11");
-        TEST_ARRAY_STORAGE.save(TEST_ARRAY[2]);
-        Assertions.assertEquals(TEST_ARRAY[2].getUuid(), "uuid15");
-
+        assertEquals("Resume " + newResume.getUuid() + " already exists", existStorageException.getMessage());
+        existStorageException = assertThrows(ExistStorageException.class, () -> {
+            DEFAULT_STORAGE.save(newResume);
+        });
+        assertEquals("Resume " + newResume.getUuid() + " already exists", existStorageException.getMessage());
     }
 
     @Test
-    void get() throws StorageException {
-        Assertions.assertEquals(DEFAULT_STORAGE.get("uuid1").getUuid(),TEST_ARRAY_STORAGE.get("uuid1").getUuid());// после добавления идентичного элемента, равенство сохраняется
-        DEFAULT_STORAGE.save(new Resume("uuid10"));
-        Assertions.assertEquals(DEFAULT_STORAGE.get("uuid10").getUuid(),TEST_ARRAY_STORAGE.get("uuid10").getUuid()); // после добавления идентичного элемента, равенство сохраняется
-        Assertions.assertNotEquals(DEFAULT_STORAGE.get("uuid10").getUuid(),TEST_ARRAY_STORAGE.get("uuid1").getUuid()); // разные обьекты не должны быть равны
-        Assertions.assertNotEquals(DEFAULT_STORAGE.get("uuid10").getUuid(),null);
+    @DisplayName("При сохранении резюме в заполненный Storage должен выкидывать исключение StorageException")
+    void savingOverflowResumeShouldThrowException() {
+        for (int i = 0; i < MAXIMUM_SIZE; i++) {
+            OVERFLOW_ARRAY[i] = new Resume();
+        }
+        for (Resume r : OVERFLOW_ARRAY) {
+            TEST_OVERFLOW_ARRAY_STORAGE.save(r);
+        }
+        Resume newResume = new Resume("uuid1");
+        StorageException storageException = assertThrows(StorageException.class, () -> {
+            TEST_OVERFLOW_ARRAY_STORAGE.save(newResume);
+        });
+        assertEquals("Storage overflow", storageException.getMessage());
     }
 
     @Test
-    void getAll() {
-        Assertions.assertArrayEquals(DEFAULT_ARRAY,DEFAULT_STORAGE.getAll());
-        assertFalse(Arrays.equals(DEFAULT_STORAGE.getAll(),TEST_ARRAY_STORAGE.getAll()));
-        DEFAULT_STORAGE.delete("uuid1");
-        assertFalse(Arrays.equals(DEFAULT_ARRAY,DEFAULT_STORAGE.getAll()));
-        assertFalse(Arrays.equals(DEFAULT_ARRAY,null));
-        assertFalse(Arrays.equals(DEFAULT_ARRAY,new Resume[]{}));
-        assertFalse(Arrays.equals(DEFAULT_ARRAY,new Resume[10000]));
-    }
-    @Test
-    void delete() throws StorageException {
+    @DisplayName("При удалении резюме, Storage должен уменьшать size()")
+    void deleteResumeShouldDecreaseOfSize(){
+        int size = DEFAULT_ARRAY.length - 1;
         TEST_ARRAY_STORAGE.delete("uuid10");
-        Assertions.assertEquals(TEST_ARRAY_STORAGE.size(),DEFAULT_STORAGE.size());
-        DEFAULT_STORAGE.delete("uuid1");
-        Assertions.assertNotEquals(TEST_ARRAY_STORAGE.size(),DEFAULT_STORAGE.size());
-        DEFAULT_STORAGE.delete("uuid5");
-        Assertions.assertNotEquals(TEST_ARRAY_STORAGE.size(),DEFAULT_STORAGE.size());
-        NotExistStorageException exception = assertThrows(NotExistStorageException.class, () -> {
-            TEST_ARRAY_STORAGE.delete("uuid10");
-        });
-        assertEquals("Resume uuid10 not exist", exception.getMessage());
-        exception = assertThrows(NotExistStorageException.class, () -> {
-            DEFAULT_STORAGE.delete("uuid5");
-        });
-        assertEquals("Resume uuid5 not exist", exception.getMessage());
+        assertEquals(5,TEST_ARRAY_STORAGE.size());
+        for(Resume r: DEFAULT_ARRAY){
+            DEFAULT_STORAGE.delete(r.getUuid());
+            assertEquals(size,DEFAULT_STORAGE.size());
+            size--;
+        }
     }
-    void update() {
-        TEST_ARRAY_STORAGE.update(TEST_ARRAY[1]);
+
+    @Test
+    @DisplayName("При удалении удаленного резюме должен выкидывать исключение NotExistStorageException")
+    void deletingNotExistingResumeShouldThrowException() {
+        NotExistStorageException notExistStorageException = assertThrows(NotExistStorageException.class, () -> {
+            TEST_ARRAY_STORAGE.delete("uuid11555");
+        });
+        assertEquals("Resume uuid11555 not exist", notExistStorageException.getMessage());
+        notExistStorageException = assertThrows(NotExistStorageException.class, () -> {
+            DEFAULT_STORAGE.delete("uuid55");
+        });
+        assertEquals("Resume uuid55 not exist", notExistStorageException.getMessage());
+    }
+
+    @Test
+    @DisplayName("При взятии, существующего резюме, должен его брать")
+    void gettingExistingResumeShouldGetIt(){
+        Assertions.assertEquals(new Resume("uuid10").getUuid(),TEST_ARRAY_STORAGE.get("uuid10").getUuid());
+        Assertions.assertEquals(new Resume("uuid6").getUuid(),DEFAULT_STORAGE.get("uuid6").getUuid());
+    }
+
+    @Test
+    @DisplayName("При взятии, несуществующего резюме, должен выбрасывать NotExistStorageException")
+    void gettingNotExistingResumeShouldThrowException() {
+        NotExistStorageException notExistStorageException = assertThrows(NotExistStorageException.class, () -> {
+            TEST_ARRAY_STORAGE.get("uuid1666");
+        });
+        assertEquals("Resume uuid1666 not exist", notExistStorageException.getMessage());
+    }
+
+    @Test
+    @DisplayName("При взятии всех резюме должен их брать")
+    void gettingAllResumeShouldGetAll() {
+        Resume[] testGetAll = TEST_ARRAY_STORAGE.getAll();
+        int index = 0;
+        for (Resume r : testGetAll) {
+            Assertions.assertEquals(r, TEST_ARRAY[index]);
+            index++;
+        }
     }
 }
