@@ -3,7 +3,7 @@ package test;
 import exception.ExistStorageException;
 import exception.NotExistStorageException;
 import exception.StorageException;
-import functional.AbstractArrayStorage;
+import functional.AbstractStorage;
 import functional.StorageFactory;
 import model.Resume;
 import org.junit.jupiter.api.Assertions;
@@ -16,12 +16,12 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class ArrayStorageTest extends AbstractArrayStorageTest {
 
-    protected static AbstractArrayStorage DEFAULT_STORAGE =
+    protected static AbstractStorage DEFAULT_STORAGE =
             StorageFactory.createStorage(StorageFactory.StorageType.ARRAY_STORAGE);
-    protected static AbstractArrayStorage TEST_ARRAY_STORAGE =
+    protected static AbstractStorage TEST_ARRAY_STORAGE =
             StorageFactory.createStorage(StorageFactory.StorageType.ARRAY_STORAGE);
 
-    protected static AbstractArrayStorage TEST_OVERFLOW_ARRAY_STORAGE =
+    protected static AbstractStorage TEST_OVERFLOW_ARRAY_STORAGE =
             StorageFactory.createStorage(StorageFactory.StorageType.ARRAY_STORAGE);
 
     protected static Resume[] TEST_ARRAY = {

@@ -5,7 +5,7 @@ import model.Resume;
 
 import java.util.Arrays;
 
-public abstract class AbstractArrayStorage implements Storage {
+public abstract class AbstractStorage extends AbstractStorage {
 
     protected final int MAXIMUM_SIZE = 10000;
     protected final Resume[] storage = new Resume[MAXIMUM_SIZE];
