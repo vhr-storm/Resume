@@ -17,14 +17,16 @@ public abstract class AbstractArrayStorage implements Storage {
     }
 
     public void save(Resume r) throws StorageException {
+        if(counterOfResume == MAXIMUM_SIZE){
+            throw new StorageException("Storage overflow", r.getUuid());
+        }
         int index = getIndex(r.getUuid());
-        if (index > 0) {
+
+        if (index > -1) {
             throw new ExistStorageException(r.getUuid());
         } else if (counterOfResume < MAXIMUM_SIZE) {
             insertElement(r, index);
             counterOfResume++;
-        } else {
-            throw new StorageException("Storage overflow", storage[MAXIMUM_SIZE].getUuid());
         }
     }
 
