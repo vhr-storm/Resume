@@ -74,7 +74,7 @@ public class ArrayStorageTest extends AbstractArrayStorageTest {
     }
 
     @Test
-    @DisplayName("При сохранении уже имеющегося резюме должен выкидывать исключение ExistStorageException")
+    @DisplayName("При сохранении, существующего резюме, должен выкидывать исключение ExistStorageException")
     void savingExistingResumeShouldThrowException() {
         Resume newResume = new Resume("uuid1");
         ExistStorageException existStorageException = assertThrows(ExistStorageException.class, () -> {
@@ -129,4 +129,10 @@ public class ArrayStorageTest extends AbstractArrayStorageTest {
         assertEquals("Resume uuid55 not exist", notExistStorageException.getMessage());
     }
 
+    @Test
+    @DisplayName("При взятии, существующего резюме, должен его брать")
+    void gettingExistingResumeShouldGetIt(){
+        Assertions.assertEquals(new Resume("uuid10").getUuid(),TEST_ARRAY_STORAGE.get("uuid10").getUuid());
+        Assertions.assertEquals(new Resume("uuid6").getUuid(),DEFAULT_STORAGE.get("uuid6").getUuid());
+    }
 }
