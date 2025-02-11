@@ -135,4 +135,11 @@ public class ArrayStorageTest extends AbstractArrayStorageTest {
         Assertions.assertEquals(new Resume("uuid10").getUuid(),TEST_ARRAY_STORAGE.get("uuid10").getUuid());
         Assertions.assertEquals(new Resume("uuid6").getUuid(),DEFAULT_STORAGE.get("uuid6").getUuid());
     }
+
+    @Test
+    @DisplayName("При взятии, несуществующего резюме, должен выбрасывать NotExistStorageException")
+    void gettingNotExistingResumeShouldThrowException(){
+        NotExistStorageException notExistStorageException = assertThrows(NotExistStorageException.class,() ->{TEST_ARRAY_STORAGE.get("uuid1666");});
+        assertEquals("Resume uuid1666 not exist",notExistStorageException.getMessage());
+    }
 }
