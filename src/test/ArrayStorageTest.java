@@ -1,6 +1,7 @@
 package test;
 
 import exception.ExistStorageException;
+import exception.NotExistStorageException;
 import exception.StorageException;
 import functional.AbstractArrayStorage;
 import functional.StorageFactory;
@@ -115,5 +116,17 @@ public class ArrayStorageTest extends AbstractArrayStorageTest {
         }
     }
 
+    @Test
+    @DisplayName("При удалении удаленного резюме должен выкидывать исключение NotExistStorageException")
+    void deletingNotExistingResumeShouldThrowException() {
+        NotExistStorageException notExistStorageException = assertThrows(NotExistStorageException.class, () -> {
+            TEST_ARRAY_STORAGE.delete("uuid11555");
+        });
+        assertEquals("Resume uuid11555 not exist", notExistStorageException.getMessage());
+        notExistStorageException = assertThrows(NotExistStorageException.class, () -> {
+            DEFAULT_STORAGE.delete("uuid55");
+        });
+        assertEquals("Resume uuid55 not exist", notExistStorageException.getMessage());
+    }
 
 }
