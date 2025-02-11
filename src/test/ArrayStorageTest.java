@@ -145,4 +145,14 @@ public class ArrayStorageTest extends AbstractArrayStorageTest {
         assertEquals("Resume uuid1666 not exist", notExistStorageException.getMessage());
     }
 
+    @Test
+    @DisplayName("При взятии всех резюме должен их брать")
+    void gettingAllResumeShouldGetAll() {
+        Resume[] testGetAll = TEST_ARRAY_STORAGE.getAll();
+        int index = 0;
+        for (Resume r : testGetAll) {
+            Assertions.assertEquals(r, TEST_ARRAY[index]);
+            index++;
+        }
+    }
 }
