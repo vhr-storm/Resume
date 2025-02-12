@@ -10,20 +10,6 @@ import java.util.List;
 public class ListStorage extends AbstractStorage {
     private final List<Resume> LIST_RESUME = new ArrayList<>();
 
-
-
-
-    @Override
-    public Resume get(String uuid) {
-        Resume r = new Resume(uuid);
-
-        if (!LIST_RESUME.contains(r)) {
-            throw new NotExistStorageException(uuid);
-        }
-
-        return r;
-    }
-
     @Override
     public Resume[] getAll() {
         return Arrays.copyOfRange(LIST_RESUME.toArray(new Resume[0]), 0, size());
@@ -76,6 +62,11 @@ public class ListStorage extends AbstractStorage {
     @Override
     void doSave(Resume r, Object searchKey) {
         LIST_RESUME.add(r);
+    }
+
+    @Override
+    Resume doGet(Object searchKey) {
+        return LIST_RESUME.get((Integer)searchKey);
     }
 
 

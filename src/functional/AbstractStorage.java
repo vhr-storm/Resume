@@ -1,6 +1,7 @@
 package functional;
 
 import exception.ExistStorageException;
+import exception.NotExistStorageException;
 import model.Resume;
 
 import java.util.List;
@@ -10,7 +11,7 @@ public abstract class AbstractStorage implements Storage{
     abstract Object getSearchKey(String uuid);
     abstract boolean isExist(Object searchKey);
     abstract void doSave(Resume r, Object searchKey);
-
+    abstract Resume doGet(Object searchKey);
     @Override
     public void clear() {
         getAllResumes().clear();
@@ -30,8 +31,16 @@ public abstract class AbstractStorage implements Storage{
 
     @Override
     public Resume get(String uuid) {
-        return null;
+        Object searchKey = getSearchKey(uuid);
+
+        if(!isExist(searchKey)){
+            throw new NotExistStorageException(uuid);
+        }
+
+        return doGet(searchKey);
     }
+
+
 
     @Override
     public Resume[] getAll() {
