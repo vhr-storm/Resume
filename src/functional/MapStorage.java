@@ -7,15 +7,15 @@ import model.Resume;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MapStorage extends AbstractStorage{
+public class MapStorage extends AbstractStorage {
 
-    private final Map<String,Resume> MAP_RESUME = new HashMap<>();
+    private final Map<String, Resume> MAP_RESUME = new HashMap<>();
 
     @Override
     public void clear() {
 
-        if(!MAP_RESUME.isEmpty()){
-           MAP_RESUME.clear();
+        if (!MAP_RESUME.isEmpty()) {
+            MAP_RESUME.clear();
         }
 
     }
@@ -26,20 +26,19 @@ public class MapStorage extends AbstractStorage{
         if (MAP_RESUME.containsKey(r.getUuid())) {
             throw new ExistStorageException(r.getUuid());
         } else {
-            MAP_RESUME.put(r.getUuid(),r);
+            MAP_RESUME.put(r.getUuid(), r);
         }
 
     }
 
     @Override
     public Resume get(String uuid) {
-        Resume r = new Resume(uuid);
 
-        if (!MAP_RESUME.containsKey(r.getUuid())) {
+        if (!MAP_RESUME.containsKey(uuid)) {
             throw new NotExistStorageException(uuid);
         }
 
-        return r;
+        return MAP_RESUME.get(uuid);
     }
 
     @Override
@@ -50,10 +49,22 @@ public class MapStorage extends AbstractStorage{
     @Override
     public void delete(String uuid) {
 
+        if (!MAP_RESUME.containsKey(uuid)) {
+            throw new NotExistStorageException(uuid);
+        } else {
+            MAP_RESUME.remove(uuid);
+        }
+
     }
 
     @Override
     public void update(Resume r) {
+
+        if (!MAP_RESUME.containsKey(r.getUuid())) {
+            throw new NotExistStorageException(r.getUuid());
+        } else {
+            MAP_RESUME.put(r.getUuid(), r);
+        }
 
     }
 
