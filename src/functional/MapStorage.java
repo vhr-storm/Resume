@@ -1,6 +1,7 @@
 package functional;
 
 import exception.ExistStorageException;
+import exception.NotExistStorageException;
 import model.Resume;
 
 import java.util.HashMap;
@@ -32,12 +33,18 @@ public class MapStorage extends AbstractStorage{
 
     @Override
     public Resume get(String uuid) {
-        return null;
+        Resume r = new Resume(uuid);
+
+        if (!MAP_RESUME.containsKey(r.getUuid())) {
+            throw new NotExistStorageException(uuid);
+        }
+
+        return r;
     }
 
     @Override
     public Resume[] getAll() {
-        return new Resume[0];
+        return new Resume[];
     }
 
     @Override
