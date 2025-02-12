@@ -1,10 +1,16 @@
 package functional;
 
+import exception.ExistStorageException;
 import model.Resume;
 
 import java.util.List;
 
 public abstract class AbstractStorage implements Storage{
+    abstract List<Resume> getAllResumes();
+    abstract Object getSearchKey(String uuid);
+    abstract boolean isExist(Object searchKey);
+    abstract void doSave(Resume r, Object searchKey);
+
     @Override
     public void clear() {
         getAllResumes().clear();
@@ -12,8 +18,15 @@ public abstract class AbstractStorage implements Storage{
 
     @Override
     public void save(Resume r) {
-
+        Object searchKey = getSearchKey(r.getUuid());
+        if(isExist(searchKey)){
+            throw new ExistStorageException(r.getUuid());
+        } else {
+            doSave(r,searchKey);
+        }
     }
+
+
 
     @Override
     public Resume get(String uuid) {
@@ -39,5 +52,5 @@ public abstract class AbstractStorage implements Storage{
     public int size() {
         return 0;
     }
-    abstract List<Resume> getAllResumes();
+
 }

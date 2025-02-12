@@ -73,4 +73,19 @@ public class MapStorage extends AbstractStorage {
         return new ArrayList<>(MAP_RESUME.values());
     }
 
+    @Override
+    Object getSearchKey(String uuid) {
+        return uuid;
+    }
+
+    @Override
+    boolean isExist(Object searchKey) {
+        return MAP_RESUME.containsKey((String)searchKey);
+    }
+
+    @Override
+    void doSave(Resume r, Object searchKey) {
+        MAP_RESUME.put((String) searchKey,r);
+    }
+
 }

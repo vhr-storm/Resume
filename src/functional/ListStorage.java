@@ -1,6 +1,5 @@
 package functional;
 
-import exception.ExistStorageException;
 import exception.NotExistStorageException;
 import model.Resume;
 
@@ -13,16 +12,6 @@ public class ListStorage extends AbstractStorage {
 
 
 
-    @Override
-    public void save(Resume r) throws ExistStorageException {
-
-        if (LIST_RESUME.contains(r)) {
-            throw new ExistStorageException(r.getUuid());
-        } else {
-            LIST_RESUME.add(r);
-        }
-
-    }
 
     @Override
     public Resume get(String uuid) {
@@ -72,6 +61,21 @@ public class ListStorage extends AbstractStorage {
     @Override
     List<Resume> getAllResumes() {
         return LIST_RESUME;
+    }
+
+    @Override
+    Object getSearchKey(String uuid) {
+        return LIST_RESUME.indexOf(new Resume(uuid));
+    }
+
+    @Override
+    boolean isExist(Object searchKey) {
+        return LIST_RESUME.contains((Resume) searchKey);
+    }
+
+    @Override
+    void doSave(Resume r, Object searchKey) {
+        LIST_RESUME.add(r);
     }
 
 
