@@ -2,10 +2,12 @@ package functional;
 
 import model.Resume;
 
+import java.util.List;
+
 public abstract class AbstractStorage implements Storage{
     @Override
     public void clear() {
-
+        getAllResumes().clear();
     }
 
     @Override
@@ -37,5 +39,5 @@ public abstract class AbstractStorage implements Storage{
     public int size() {
         return 0;
     }
-
+    abstract List<Resume> getAllResumes();
 }

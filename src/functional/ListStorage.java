@@ -11,14 +11,7 @@ import java.util.List;
 public class ListStorage extends AbstractStorage {
     private final List<Resume> LIST_RESUME = new ArrayList<>();
 
-    @Override
-    public void clear() {
 
-        if (!LIST_RESUME.isEmpty()) {
-            LIST_RESUME.clear();
-        }
-
-    }
 
     @Override
     public void save(Resume r) throws ExistStorageException {
@@ -74,6 +67,11 @@ public class ListStorage extends AbstractStorage {
     @Override
     public int size() {
         return LIST_RESUME.size();
+    }
+
+    @Override
+    List<Resume> getAllResumes() {
+        return LIST_RESUME;
     }
 
 

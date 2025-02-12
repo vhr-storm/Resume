@@ -4,21 +4,16 @@ import exception.ExistStorageException;
 import exception.NotExistStorageException;
 import model.Resume;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class MapStorage extends AbstractStorage {
 
     private final Map<String, Resume> MAP_RESUME = new HashMap<>();
 
-    @Override
-    public void clear() {
 
-        if (!MAP_RESUME.isEmpty()) {
-            MAP_RESUME.clear();
-        }
-
-    }
 
     @Override
     public void save(Resume r) {
@@ -72,4 +67,10 @@ public class MapStorage extends AbstractStorage {
     public int size() {
         return MAP_RESUME.size();
     }
+
+    @Override
+    List<Resume> getAllResumes() {
+        return new ArrayList<>(MAP_RESUME.values());
+    }
+
 }
