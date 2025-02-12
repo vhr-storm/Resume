@@ -17,6 +17,7 @@ public class ListStorage extends AbstractStorage{
 
     @Override
     public void save(Resume r) throws ExistStorageException {
+
         if(RESUME_LIST.contains(r)){
             throw new ExistStorageException(r.getUuid());
         } else {
@@ -28,6 +29,7 @@ public class ListStorage extends AbstractStorage{
     @Override
     public Resume get(String uuid)  {
         Resume r = new Resume(uuid);
+
         if(!RESUME_LIST.contains(r)){
             throw new NotExistStorageException(uuid);
         }
@@ -42,6 +44,7 @@ public class ListStorage extends AbstractStorage{
     @Override
     public void delete(String uuid) {
         Resume r = new Resume(uuid);
+
         if(!RESUME_LIST.contains(r)){
             throw new NotExistStorageException(uuid);
         } else {
@@ -59,8 +62,4 @@ public class ListStorage extends AbstractStorage{
         return RESUME_LIST.size();
     }
 
-    @Override
-    public int getIndex(String uuid) {
-        return 0;
-    }
 }

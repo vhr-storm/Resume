@@ -38,8 +38,4 @@ public abstract class AbstractStorage implements Storage{
         return 0;
     }
 
-    @Override
-    public int getIndex(String uuid) {
-        return 0;
-    }
 }
