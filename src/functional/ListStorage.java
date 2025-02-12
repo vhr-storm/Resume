@@ -9,13 +9,13 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ListStorage extends AbstractStorage {
-    static final List<Resume> RESUME_LIST = new ArrayList<Resume>();
+    private final List<Resume> LIST_RESUME = new ArrayList<>();
 
     @Override
     public void clear() {
 
-        if (!RESUME_LIST.isEmpty()) {
-            RESUME_LIST.clear();
+        if (!LIST_RESUME.isEmpty()) {
+            LIST_RESUME.clear();
         }
 
     }
@@ -23,10 +23,10 @@ public class ListStorage extends AbstractStorage {
     @Override
     public void save(Resume r) throws ExistStorageException {
 
-        if (RESUME_LIST.contains(r)) {
+        if (LIST_RESUME.contains(r)) {
             throw new ExistStorageException(r.getUuid());
         } else {
-            RESUME_LIST.add(r);
+            LIST_RESUME.add(r);
         }
 
     }
@@ -35,7 +35,7 @@ public class ListStorage extends AbstractStorage {
     public Resume get(String uuid) {
         Resume r = new Resume(uuid);
 
-        if (!RESUME_LIST.contains(r)) {
+        if (!LIST_RESUME.contains(r)) {
             throw new NotExistStorageException(uuid);
         }
 
@@ -44,17 +44,17 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     public Resume[] getAll() {
-        return Arrays.copyOfRange(RESUME_LIST.toArray(new Resume[0]), 0, size());
+        return Arrays.copyOfRange(LIST_RESUME.toArray(new Resume[0]), 0, size());
     }
 
     @Override
     public void delete(String uuid) {
         Resume r = new Resume(uuid);
 
-        if (!RESUME_LIST.contains(r)) {
+        if (!LIST_RESUME.contains(r)) {
             throw new NotExistStorageException(uuid);
         } else {
-            RESUME_LIST.remove(r);
+            LIST_RESUME.remove(r);
         }
 
     }
@@ -63,21 +63,21 @@ public class ListStorage extends AbstractStorage {
     public void update(Resume r) throws NotExistStorageException {
         int index = getIndex(r.getUuid());
 
-        if (!RESUME_LIST.contains(r)) {
+        if (!LIST_RESUME.contains(r)) {
             throw new NotExistStorageException(r.getUuid());
         } else {
-            RESUME_LIST.set(index, r);
+            LIST_RESUME.set(index, r);
         }
 
     }
 
     @Override
     public int size() {
-        return RESUME_LIST.size();
+        return LIST_RESUME.size();
     }
 
 
     public int getIndex(String uuid) {
-        return RESUME_LIST.indexOf(new Resume(uuid));
+        return LIST_RESUME.indexOf(new Resume(uuid));
     }
 }
