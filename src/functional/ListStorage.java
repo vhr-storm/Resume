@@ -16,12 +16,16 @@ public class ListStorage extends AbstractStorage{
 
     @Override
     public void save(Resume r) throws ExistStorageException {
-
+        if(RESUME_LIST.contains(r)){
+            throw new ExistStorageException(r.getUuid());
+        } else {
+            RESUME_LIST.add(r);
+        }
 
     }
 
     @Override
-    public Resume get(String uuid) {
+    public Resume get(String uuid)  {
 
     }
 
