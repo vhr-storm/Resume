@@ -18,10 +18,6 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         counterOfResume = 0;
     }
 
-    @Override
-    protected Object getSearchKey(String uuid) {
-        return getIndex(uuid);
-    }
 
     @Override
     protected boolean isExist(Object searchKey) {
@@ -59,9 +55,6 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     protected List<Resume> getAllResumes() {
         return Arrays.asList(Arrays.copyOfRange(storage, 0, counterOfResume));
     }
-
-    protected abstract int getIndex(String uuid);
-
 
     protected abstract void insertElement(Resume r, int index);
 
