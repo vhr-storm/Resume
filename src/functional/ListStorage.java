@@ -9,6 +9,11 @@ public class ListStorage extends AbstractStorage {
     private static final List<Resume> LIST_RESUME = new ArrayList<>();
 
     @Override
+    public void clear() {
+        LIST_RESUME.clear();
+    }
+
+    @Override
     List<Resume> getAllResumes() {
         return LIST_RESUME;
     }
