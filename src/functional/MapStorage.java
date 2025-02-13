@@ -12,6 +12,11 @@ public class MapStorage extends AbstractStorage {
     private final Map<String, Resume> MAP_RESUME = new HashMap<>();
 
     @Override
+    public void clear() {
+        MAP_RESUME.clear();
+    }
+
+    @Override
     List<Resume> getAllResumes() {
         return new ArrayList<>(MAP_RESUME.values());
     }
