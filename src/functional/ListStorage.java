@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ListStorage extends AbstractStorage {
-    private final List<Resume> LIST_RESUME = new ArrayList<>();
+    private static final List<Resume> LIST_RESUME = new ArrayList<>();
 
     @Override
     List<Resume> getAllResumes() {
@@ -20,7 +20,7 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     boolean isExist(Object searchKey) {
-        return LIST_RESUME.contains((Resume) searchKey);
+        return (Integer) searchKey >= 0;
     }
 
     @Override
