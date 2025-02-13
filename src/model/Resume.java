@@ -1,5 +1,6 @@
 package model;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public class Resume implements Comparable<Resume> {
@@ -23,7 +24,18 @@ public class Resume implements Comparable<Resume> {
         return uuid;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Resume resume = (Resume) o;
+        return Objects.equals(uuid, resume.uuid);
+    }
 
+    @Override
+    public int hashCode() {
+        return uuid != null ? uuid.hashCode() : 0;
+    }
     @Override
     public int compareTo(Resume o) {
         return this.uuid.compareTo(o.uuid);
