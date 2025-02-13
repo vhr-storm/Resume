@@ -13,6 +13,12 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     protected int counterOfResume = 0;
 
     @Override
+    public void clear() {
+        Arrays.fill(storage, 0, counterOfResume, null);
+        counterOfResume = 0;
+    }
+
+    @Override
     protected Object getSearchKey(String uuid) {
         return getIndex(uuid);
     }
