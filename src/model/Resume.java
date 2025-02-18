@@ -1,26 +1,19 @@
 package model;
 
+import lombok.*;
+
 import java.util.Objects;
-import java.util.UUID;
+
+@Getter
+@Setter
+@AllArgsConstructor
 
 public class Resume implements Comparable<Resume> {
     private final String uuid;
-
-    public Resume() {
-        this(UUID.randomUUID().toString());
-    }
-
-    public Resume(String uuid) {
-        this.uuid = uuid;
-    }
-
+    private final String fullName;
 
     @Override
     public String toString() {
-        return uuid;
-    }
-
-    public String getUuid() {
         return uuid;
     }
 
