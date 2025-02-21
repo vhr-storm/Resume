@@ -1,75 +1,64 @@
 package functional;
 
-import exception.*;
+import exception.StorageException;
 import model.Resume;
 
 import java.util.Arrays;
+import java.util.List;
 
-public abstract class AbstractArrayStorage implements Storage {
+public abstract class AbstractArrayStorage extends AbstractStorage {
 
     protected final int MAXIMUM_SIZE = 10000;
     protected final Resume[] storage = new Resume[MAXIMUM_SIZE];
     protected int counterOfResume = 0;
 
+    @Override
     public void clear() {
         Arrays.fill(storage, 0, counterOfResume, null);
         counterOfResume = 0;
     }
 
-    public void save(Resume r) throws StorageException {
-        int index = getIndex(r.getUuid());
-        if (index > 0) {
-            throw new ExistStorageException(r.getUuid());
-        } else if (counterOfResume < MAXIMUM_SIZE) {
-            insertElement(r, index);
-            counterOfResume++;
-        } else {
-            throw new StorageException("Storage overflow", storage[MAXIMUM_SIZE].getUuid());
+
+    @Override
+    protected boolean isExist(Object searchKey) {
+        return ((Integer) searchKey) >= 0;
+    }
+
+    @Override
+    protected void doSave(Resume r, Object searchKey) {
+        if (counterOfResume >= MAXIMUM_SIZE) {
+            throw new StorageException("Storage overflow", r.getUuid());
         }
+        insertElement(r, (Integer) searchKey);
+        counterOfResume++;
+    }
+
+    @Override
+    protected Resume doGet(Object searchKey) {
+        return storage[(Integer) searchKey];
+    }
+
+    @Override
+    protected void doUpdate(Resume r, Object searchKey) {
+        storage[(Integer) searchKey] = r;
+    }
+
+    @Override
+    void doDelete(Object searchKey) {
+        int index = (Integer) searchKey;
+        fillDeletedElement(index);
+        storage[counterOfResume - 1] = null;
+        counterOfResume--;
+    }
+
+    @Override
+    protected List<Resume> getAllResumes() {
+        return Arrays.asList(Arrays.copyOfRange(storage, 0, counterOfResume));
     }
 
     protected abstract void insertElement(Resume r, int index);
 
+    // Метод корректировки массива при удалении элемента.
     protected abstract void fillDeletedElement(int index);
-
-    public Resume get(String uuid) throws StorageException {
-        int index = getIndex(uuid);
-        if (size() == 0) return null;
-        if (index < 0) {
-            throw new NotExistStorageException(uuid);
-        }
-        return this.storage[index];
-
-    }
-
-    public abstract int getIndex(String uuid);
-
-    public void delete(String uuid) throws StorageException {
-        int index = getIndex(uuid);
-        if (index < 0) {
-            throw new NotExistStorageException(uuid);
-        } else {
-            fillDeletedElement(index);
-            storage[counterOfResume - 1] = null;
-            counterOfResume--;
-        }
-    }
-
-    public Resume[] getAll() {
-        return Arrays.copyOfRange(storage, 0, counterOfResume);
-    }
-
-    public int size() {
-        return counterOfResume;
-    }
-
-    public void update(Resume r) throws StorageException {
-        int index = getIndex(r.getUuid());
-        if (index < 0) {
-            throw new NotExistStorageException(r.getUuid());
-        } else {
-            this.storage[index] = r;
-        }
-    }
 
 }
