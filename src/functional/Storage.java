@@ -2,6 +2,8 @@ package functional;
 
 import model.Resume;
 
+import java.util.List;
+
 public interface Storage {
     void clear();
 
@@ -9,8 +11,9 @@ public interface Storage {
 
     Resume get(String uuid);
 
-    Resume[] getAll();
+    //Resume[] getAll();
 
+    List<Resume> getAllSorted();
     void delete(String uuid);
 
     void update(Resume r);
