@@ -4,9 +4,12 @@ import exception.ExistStorageException;
 import exception.NotExistStorageException;
 import model.Resume;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public abstract class AbstractStorage implements Storage {
+    static final Comparator<Resume> RESUME_COMPARATOR = ((o1, o2) ->o1.getFullName().compareTo(o2.getFullName()));
     abstract List<Resume> getAllResumes();
 
     abstract Object getSearchKey(String uuid);
@@ -52,9 +55,11 @@ public abstract class AbstractStorage implements Storage {
 
 
     @Override
-    public Resume[] getAll() {
+    public List<Resume> getAllSorted() {
         List<Resume> list = getAllResumes();
-        return list.toArray(new Resume[0]);
+        return list.stream()
+                .sorted(RESUME_COMPARATOR)
+                .collect(Collectors.toList());
     }
 
     @Override
