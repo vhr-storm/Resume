@@ -6,7 +6,7 @@ import java.util.Objects;
 
 @Getter
 @Setter
-@AllArgsConstructor
+@RequiredArgsConstructor
 
 public class Resume implements Comparable<Resume> {
     private final String uuid;
@@ -14,7 +14,7 @@ public class Resume implements Comparable<Resume> {
 
     @Override
     public String toString() {
-        return uuid;
+        return uuid + " " + fullName;
     }
 
     @Override
