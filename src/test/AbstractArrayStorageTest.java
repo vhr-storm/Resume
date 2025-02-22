@@ -36,12 +36,12 @@ public abstract class AbstractArrayStorageTest extends AbstractStorageTest {
     public void testSaveOverflow() {
         // Заполняем переполненное хранилище до предела
         for (int i = 0; i < MAXIMUM_SIZE; i++) {
-            OVERFLOW_ARRAY[i] = new Resume();
+            OVERFLOW_ARRAY[i] = new Resume("uuid_overflow","new_fullName");
         }
         for (Resume r : OVERFLOW_ARRAY) {
             TEST_OVERFLOW_STORAGE.save(r);
         }
-        Resume newResume = new Resume("uuid_overflow");
+        Resume newResume = new Resume("uuid_overflow","Overflow fullName");
         StorageException exception = assertThrows(StorageException.class, () -> TEST_OVERFLOW_STORAGE.save(newResume));
         assertEquals("Storage overflow", exception.getMessage());
     }

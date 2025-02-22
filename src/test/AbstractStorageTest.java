@@ -18,11 +18,11 @@ abstract class AbstractStorageTest {
 
     // Наборы тестовых резюме
     protected static final Resume[] TEST_RESUMES = {
-            new Resume("uuid10"),
-            new Resume("uuid11"),
-            new Resume("uuid15"),
-            new Resume("uuid14"),
-            new Resume("uuid9"),
+            new Resume("uuid10","Roman"),
+            new Resume("uuid11","Evgeniy"),
+            new Resume("uuid15","Alina"),
+            new Resume("uuid14","Natalia"),
+            new Resume("uuid9","Sergey"),
     };
 
 
@@ -47,7 +47,7 @@ abstract class AbstractStorageTest {
 
     @Test
     public void testSave() {
-        Resume newResume = new Resume("uuid_new");
+        Resume newResume = new Resume("uuid_new","New_Name");
         TEST_STORAGE.save(newResume);
 
         assertEquals(newResume.getUuid(), TEST_STORAGE.get(newResume.getUuid()).getUuid());
@@ -57,7 +57,7 @@ abstract class AbstractStorageTest {
     @Test
     public void testSaveExisting() {
         // Попытка сохранить уже существующее резюме (например, с uuid "uuid1")
-        Resume existing = new Resume("uuid9");
+        Resume existing = new Resume("uuid9","Kseniya");
         ExistStorageException exception = assertThrows(ExistStorageException.class, () -> TEST_STORAGE.save(existing));
         assertEquals("Resume " + existing.getUuid() + " already exists", exception.getMessage());
     }
@@ -81,7 +81,7 @@ abstract class AbstractStorageTest {
     @Test
     public void testUpdate() {
         // Создаём новое резюме с тем же uuid, что и у одного из сохранённых
-        Resume updated = new Resume("uuid11");
+        Resume updated = new Resume("uuid11","Ekaterina");
         // При необходимости можно изменить и другие поля резюме
         TEST_STORAGE.update(updated);
         assertEquals(updated, TEST_STORAGE.get("uuid11"), "Резюме не было обновлено");
@@ -89,7 +89,7 @@ abstract class AbstractStorageTest {
 
     @Test
     public void testUpdateNotExisting() {
-        Resume nonExisting = new Resume("nonexistent");
+        Resume nonExisting = new Resume("nonexistent","Non_exist");
         NotExistStorageException exception = assertThrows(NotExistStorageException.class,
                 () -> TEST_STORAGE.update(nonExisting));
         assertEquals("Resume nonexistent not exist", exception.getMessage());
@@ -97,7 +97,7 @@ abstract class AbstractStorageTest {
 
     @Test
     public void testGet() {
-        Resume testResume = new Resume("uuid_new");
+        Resume testResume = new Resume("uuid_new","New_Name");
         NotExistStorageException ex = assertThrows(NotExistStorageException.class, () -> {
             TEST_STORAGE.get(testResume.getUuid());
         });
@@ -113,7 +113,7 @@ abstract class AbstractStorageTest {
 
     @Test
     public void testGetAll() {
-        Resume[] all = TEST_STORAGE.getAll();
+        Resume[] all = TEST_STORAGE.getAllSorted().toArray(new Resume[0]);
         Resume[] expected = new Resume[TEST_RESUMES.length];
         System.arraycopy(TEST_RESUMES, 0, expected, 0, TEST_RESUMES.length);
         // Если реализация требует определённого порядка, можно отсортировать массивы
