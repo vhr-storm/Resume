@@ -14,13 +14,13 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    List<Resume> getAllResumes() {
+    protected List<Resume> getAllResumes() {
         return LIST_RESUME;
     }
 
     @Override
     Object getSearchKey(String uuid) {
-        return LIST_RESUME.indexOf(new Resume(uuid,"fullName"));
+        return LIST_RESUME.indexOf(new Resume(uuid,"dummy"));
     }
 
     @Override
