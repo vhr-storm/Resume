@@ -6,8 +6,9 @@ public class StorageFactory {
     public enum StorageType {
         SORTED_ARRAY_STORAGE,
         ARRAY_STORAGE,
-        MAP_STORAGE,
+        MAP_UUID_STORAGE,
         LIST_STORAGE,
+        MAP_RESUME_STORAGE,
         NO_TYPE
     }
 
@@ -16,8 +17,9 @@ public class StorageFactory {
         switch (type) {
             case ARRAY_STORAGE -> typeStorage = new ArrayStorage();
             case SORTED_ARRAY_STORAGE -> typeStorage = new SortedArrayStorage();
-            case MAP_STORAGE -> typeStorage = new MapStorage();
+            case MAP_UUID_STORAGE -> typeStorage = new MapUuidStorage();
             case LIST_STORAGE -> typeStorage = new ListStorage();
+            case MAP_RESUME_STORAGE -> typeStorage = new MapResumeStorage();
             default -> throw new NotExistTypeStorageException(type.toString());
         }
         return typeStorage;
