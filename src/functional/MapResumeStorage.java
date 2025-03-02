@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MapResumeStorage extends AbstractStorage {
+public class MapResumeStorage extends AbstractStorage<Resume> {
     private final Map<String, Resume> MAP_RESUME = new HashMap<>();
 
     @Override
@@ -21,32 +21,32 @@ public class MapResumeStorage extends AbstractStorage {
     }
 
     @Override
-    Object getSearchKey(String uuid) {
-        return new Resume(uuid,"dummy");
+    Resume getSearchKey(String uuid) {
+        return new Resume(uuid, "dummy");
     }
 
     @Override
-    boolean isExist(Object searchKey) {
-        return MAP_RESUME.containsKey(((Resume)searchKey).getUuid());
+    boolean isExist(Resume searchKey) {
+        return MAP_RESUME.containsKey(searchKey.getUuid());
     }
 
     @Override
-    void doSave(Resume r, Object searchKey) {
-        MAP_RESUME.put(((Resume)searchKey).getUuid(), r);
+    void doSave(Resume r, Resume searchKey) {
+        MAP_RESUME.put(searchKey.getUuid(), r);
     }
 
     @Override
-    Resume doGet(Object searchKey) {
-        return MAP_RESUME.get(((Resume)searchKey).getUuid());
+    Resume doGet(Resume searchKey) {
+        return MAP_RESUME.get(searchKey.getUuid());
     }
 
     @Override
-    void doDelete(Object searchKey) {
-        MAP_RESUME.remove(((Resume)searchKey).getUuid());
+    void doDelete(Resume searchKey) {
+        MAP_RESUME.remove(searchKey.getUuid());
     }
 
     @Override
-    void doUpdate(Resume r, Object searchKey) {
-        MAP_RESUME.put(((Resume)searchKey).getUuid(), r);
+    void doUpdate(Resume r, Resume searchKey) {
+        MAP_RESUME.put(searchKey.getUuid(), r);
     }
 }

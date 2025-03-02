@@ -4,13 +4,14 @@ import model.Resume;
 
 public class Main {
 
-    static AbstractStorage arraySortedStorage = StorageFactory.createStorage(StorageFactory.StorageType.ARRAY_STORAGE);
+    static AbstractStorage arraySortedStorage = StorageFactory.createStorage(StorageFactory.StorageType.MAP_RESUME_STORAGE);
     protected static final Resume[] TEST_RESUMES = {
             new Resume("uuid10","Roman"),
             new Resume("uuid11","Evgeniy"),
             new Resume("uuid15","Alina"),
             new Resume("uuid14","Natalia"),
-            new Resume("uuid9","Algrgey"),
+            new Resume("uuid9","Albanec"),
+            new Resume("uuid9","Albanec")
     };
     public static void main(String[] args) {
 
@@ -20,6 +21,7 @@ public class Main {
         arraySortedStorage.save(TEST_RESUMES[2]);
         arraySortedStorage.save(TEST_RESUMES[3]);
         arraySortedStorage.save(TEST_RESUMES[4]);
+//        arraySortedStorage.save(TEST_RESUMES[5]);
 //        arraySortedStorage.save(r1);
 
         System.out.println("Get r1: " + arraySortedStorage.get(TEST_RESUMES[0].getUuid()));
@@ -40,7 +42,7 @@ public class Main {
 
     static void printAll() {
         System.out.println("\nGet All");
-        for (Resume r : arraySortedStorage.getAllSorted()) {
+        for (Object r : arraySortedStorage.getAllSorted()) {
             System.out.println(r);
         }
     }

@@ -113,7 +113,7 @@ abstract class AbstractStorageTest {
 
     @Test
     public void testGetAll() {
-        Resume[] all = TEST_STORAGE.getAllSorted().toArray(new Resume[0]);
+        Resume[] all = (Resume[]) TEST_STORAGE.getAllSorted().toArray(new Resume[0]);
         Resume[] expected = new Resume[TEST_RESUMES.length];
         System.arraycopy(TEST_RESUMES, 0, expected, 0, TEST_RESUMES.length);
         // Если реализация требует определённого порядка, можно отсортировать массивы
