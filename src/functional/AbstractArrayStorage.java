@@ -45,8 +45,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
 
     @Override
     void doDelete(Integer searchKey) {
-        int index = (Integer) searchKey;
-        fillDeletedElement(index);
+        fillDeletedElement(searchKey);
         storage[counterOfResume - 1] = null;
         counterOfResume--;
     }
